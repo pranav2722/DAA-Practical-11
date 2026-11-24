@@ -1,0 +1,36 @@
+def floyd_warshall(graph):
+    # Number of vertices in the graph
+    num_vertices = len(graph)
+    
+    # Create a copy of the graph to store shortest distances
+    dist = [row[:] for row in graph]
+
+    # k is the intermediate vertex
+    for k in range(num_vertices):
+        # i is the source vertex
+        for i in range(num_vertices):
+            # j is the destination vertex
+            for j in range(num_vertices):
+                # Update dist[i][j] if vertex k offers a shorter path
+                if dist[i][k] + dist[k][j] < dist[i][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+
+    return dist
+
+# Example Usage
+if __name__ == "__main__":
+    INF = float('inf')
+
+    # Adjacency matrix representation of a 4-vertex graph
+    graph = [
+        [0,   3,   INF, 7],
+        [8,   0,   2,   INF],
+        [5,   INF, 0,   1],
+        [2,   INF, INF, 0]
+    ]
+
+    shortest_paths = floyd_warshall(graph)
+
+    print("Shortest distance matrix:")
+    for row in shortest_paths:
+        print([val if val != INF else "INF" for val in row])
